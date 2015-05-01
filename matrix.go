@@ -20,38 +20,39 @@ func main() {
 	var m [10][10]int
 	var iv [18]int
 	for iy = 0; iy < n2; iy++ {
-		for ix = 0; ix < n2; ix++ {
+		for ix = iy + 1; ix < n2; ix++ {
 			if ix != iy {
 				index = 0
 				for i = 0; i < ix; i++ {
-					if i != iy {
-						iv[index] = m[i][iy]
-						index++
-					}
+					iv[index] = m[i][iy]
+					index++
 				}
 				for i = 0; i < iy; i++ {
-					if i != ix {
-						iv[index] = m[ix][i]
-						index++
-					}
+					iv[index] = m[ix][i]
+					index++
 				}
-				min = 1
-				for j = 1; j <= max; j++ {
-					var found bool
-					found = false
+				min = ix
+				for j = min; j <= max; j++ {
+					var isFound bool
+					isFound = false
 					for i = 0; i < index; i++ {
 						if j == iv[i] {
-							found = true
+							isFound = true
 							break
 						}
 					}
-					if found == true {
+					if isFound == true {
+						if j == max {
+							j = 0
+						}
 						continue
+					} else {
+						min = j
+						break
 					}
-					min = j
-					break
 				}
 				m[ix][iy] = min
+				m[iy][ix] = m[ix][iy]
 			}
 		}
 		for i = 0; i < n2; i++ {
