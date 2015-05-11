@@ -11,11 +11,11 @@ func main() {
 	flag.Parse()
 	n = num/2 + num%2
 	n2 = n * 2
-	fmt.Print("n : ")
-	fmt.Println(n)
-	fmt.Print("max : ")
+	//fmt.Print("n : ")
+	//fmt.Println(n)
+	//fmt.Print("max : ")
 	max = 2*n - 1
-	fmt.Println(max)
+	//fmt.Println(max)
 
 	var m [10][10]int
 	var iv [18]int
@@ -59,5 +59,17 @@ func main() {
 			fmt.Print(m[i][iy])
 		}
 		fmt.Println()
+	}
+
+	j = 1
+	for i = 1; i <= max; i++ {
+		for iy = 0; iy < num; iy++ {
+			for ix = iy + 1; ix < num; ix++ {
+				if m[ix][iy] == i {
+					fmt.Printf("%d: %d - %d\n", j, iy+1, ix+1)
+					j++
+				}
+			}
+		}
 	}
 }
