@@ -7,18 +7,23 @@ import (
 
 func main() {
 	var num, n, n2, ix, iy, i, j, index, min, max int
+	// 引数からチーム数設定
 	flag.IntVar(&num, "num", 0, "int flag")
 	flag.Parse()
+
+	// 対戦表を作るチーム数は偶数になるように設定
+	// 奇数の場合は+1する
 	n = num/2 + num%2
 	n2 = n * 2
-	//fmt.Print("n : ")
-	//fmt.Println(n)
-	//fmt.Print("max : ")
-	max = 2*n - 1
-	//fmt.Println(max)
 
+	// 1チームあたりの最大試合数
+	max = 2*n - 1
+
+	// 試合順
 	var m [10][10]int
 	var iv [18]int
+
+	// 対戦順生成
 	for iy = 0; iy < n2; iy++ {
 		for ix = iy + 1; ix < n2; ix++ {
 			if ix != iy {
@@ -55,12 +60,9 @@ func main() {
 				m[iy][ix] = m[ix][iy]
 			}
 		}
-		for i = 0; i < n2; i++ {
-			fmt.Print(m[i][iy])
-		}
-		fmt.Println()
 	}
 
+	// 対戦順出力
 	j = 1
 	for i = 1; i <= max; i++ {
 		for iy = 0; iy < num; iy++ {
