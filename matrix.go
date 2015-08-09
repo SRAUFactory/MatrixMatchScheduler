@@ -5,12 +5,7 @@ import (
 	"fmt"
 )
 
-func main() {
-	var num int
-	// 引数からチーム数設定
-	flag.IntVar(&num, "num", 0, "int flag")
-	flag.Parse()
-
+func createMatchSchdule(num int) {
 	// 対戦表を作るチーム数は偶数になるように設定
 	// 奇数の場合は+1する
 	n := num/2 + num%2
@@ -73,4 +68,13 @@ func main() {
 			}
 		}
 	}
+}
+
+func main() {
+	var num int
+	// 引数からチーム数設定
+	flag.IntVar(&num, "num", 0, "int flag")
+	flag.Parse()
+
+	createMatchSchdule(num)
 }
