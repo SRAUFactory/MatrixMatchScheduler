@@ -22,6 +22,7 @@ func createMatchSchdule(num int) {
 	for iy := 0; iy < n2; iy++ {
 		for ix := iy + 1; ix < n2; ix++ {
 			if ix != iy {
+				// 対象行/列で設定済みの値をまとめて抽出
 				index := 0
 				for i := 0; i < ix; i++ {
 					iv[index] = m[i][iy]
@@ -31,6 +32,8 @@ func createMatchSchdule(num int) {
 					iv[index] = m[ix][i]
 					index++
 				}
+
+				// 抽出した値の中に含まれていない値の最小値を算出
 				min := ix
 				for j := min; j <= max; j++ {
 					isFound := false
@@ -76,5 +79,6 @@ func main() {
 	flag.IntVar(&num, "num", 0, "int flag")
 	flag.Parse()
 
+	// 対戦表作成
 	createMatchSchdule(num)
 }
