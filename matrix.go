@@ -6,41 +6,40 @@ import (
 )
 
 func main() {
-	var num, n, n2, ix, iy, i, j, index, min, max int
+	var num int
 	// 引数からチーム数設定
 	flag.IntVar(&num, "num", 0, "int flag")
 	flag.Parse()
 
 	// 対戦表を作るチーム数は偶数になるように設定
 	// 奇数の場合は+1する
-	n = num/2 + num%2
-	n2 = n * 2
+	n := num/2 + num%2
+	n2 := n * 2
 
 	// 1チームあたりの最大試合数
-	max = 2*n - 1
+	max := 2*n - 1
 
 	// 試合順
 	var m [10][10]int
 	var iv [18]int
 
 	// 対戦順生成
-	for iy = 0; iy < n2; iy++ {
-		for ix = iy + 1; ix < n2; ix++ {
+	for iy := 0; iy < n2; iy++ {
+		for ix := iy + 1; ix < n2; ix++ {
 			if ix != iy {
-				index = 0
-				for i = 0; i < ix; i++ {
+				index := 0
+				for i := 0; i < ix; i++ {
 					iv[index] = m[i][iy]
 					index++
 				}
-				for i = 0; i < iy; i++ {
+				for i := 0; i < iy; i++ {
 					iv[index] = m[ix][i]
 					index++
 				}
-				min = ix
-				for j = min; j <= max; j++ {
-					var isFound bool
-					isFound = false
-					for i = 0; i < index; i++ {
+				min := ix
+				for j := min; j <= max; j++ {
+					isFound := false
+					for i := 0; i < index; i++ {
 						if j == iv[i] {
 							isFound = true
 							break
@@ -63,10 +62,10 @@ func main() {
 	}
 
 	// 対戦順出力
-	j = 1
-	for i = 1; i <= max; i++ {
-		for iy = 0; iy < num; iy++ {
-			for ix = iy + 1; ix < num; ix++ {
+	j := 1
+	for i := 1; i <= max; i++ {
+		for iy := 0; iy < num; iy++ {
+			for ix := iy + 1; ix < num; ix++ {
 				if m[ix][iy] == i {
 					fmt.Printf("%d: %d - %d\n", j, iy+1, ix+1)
 					j++
