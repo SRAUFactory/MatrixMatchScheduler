@@ -5,6 +5,22 @@ import (
 	"fmt"
 )
 
+// 対戦順を出力
+func printMatchSchdule(m [10][10]int, iv [18]int, num int, max int) {
+	j := 1
+	for i := 1; i <= max; i++ {
+		for iy := 0; iy < num; iy++ {
+			for ix := iy + 1; ix < num; ix++ {
+				if m[ix][iy] == i {
+					fmt.Printf("%d: %d - %d\n", j, iy+1, ix+1)
+					j++
+				}
+			}
+		}
+	}
+}
+
+// 対戦順を生成
 func createMatchSchdule(num int) {
 	// 対戦表を作るチーム数は偶数になるように設定
 	// 奇数の場合は+1する
@@ -60,17 +76,7 @@ func createMatchSchdule(num int) {
 	}
 
 	// 対戦順出力
-	j := 1
-	for i := 1; i <= max; i++ {
-		for iy := 0; iy < num; iy++ {
-			for ix := iy + 1; ix < num; ix++ {
-				if m[ix][iy] == i {
-					fmt.Printf("%d: %d - %d\n", j, iy+1, ix+1)
-					j++
-				}
-			}
-		}
-	}
+	printMatchSchdule(m, iv, num, max)
 }
 
 func main() {
