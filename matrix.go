@@ -5,13 +5,20 @@ import (
 	"fmt"
 )
 
+// 試合スケジュール
+type matchSchedule struct {
+	match [10][10]int
+	num   int
+	max   int
+}
+
 // 対戦順を出力
-func printMatchSchdule(m [10][10]int, iv [18]int, num int, max int) {
+func printMatchSchdule(matches matchSchedule) {
 	j := 1
-	for i := 1; i <= max; i++ {
-		for iy := 0; iy < num; iy++ {
-			for ix := iy + 1; ix < num; ix++ {
-				if m[ix][iy] == i {
+	for i := 1; i <= matches.max; i++ {
+		for iy := 0; iy < matches.num; iy++ {
+			for ix := iy + 1; ix < matches.num; ix++ {
+				if matches.match[ix][iy] == i {
 					fmt.Printf("%d: %d - %d\n", j, iy+1, ix+1)
 					j++
 				}
@@ -28,10 +35,11 @@ func createMatchSchdule(num int) {
 	n2 := n * 2
 
 	// 1チームあたりの最大試合数
-	max := 2*n - 1
+	var matches matchSchedule
+	matches.max = 2*n - 1
+	matches.num = num
 
 	// 試合順
-	var m [10][10]int
 	var iv [18]int
 
 	// 対戦順生成
@@ -41,17 +49,17 @@ func createMatchSchdule(num int) {
 				// 対象行/列で設定済みの値をまとめて抽出
 				index := 0
 				for i := 0; i < ix; i++ {
-					iv[index] = m[i][iy]
+					iv[index] = matches.match[i][iy]
 					index++
 				}
 				for i := 0; i < iy; i++ {
-					iv[index] = m[ix][i]
+					iv[index] = matches.match[ix][i]
 					index++
 				}
 
 				// 抽出した値の中に含まれていない値の最小値を算出
 				min := ix
-				for j := min; j <= max; j++ {
+				for j := min; j <= matches.max; j++ {
 					isFound := false
 					for i := 0; i < index; i++ {
 						if j == iv[i] {
@@ -60,7 +68,7 @@ func createMatchSchdule(num int) {
 						}
 					}
 					if isFound == true {
-						if j == max {
+						if j == matches.max {
 							j = 0
 						}
 						continue
@@ -69,14 +77,14 @@ func createMatchSchdule(num int) {
 						break
 					}
 				}
-				m[ix][iy] = min
-				m[iy][ix] = m[ix][iy]
+				matches.match[ix][iy] = min
+				matches.match[iy][ix] = matches.match[ix][iy]
 			}
 		}
 	}
 
 	// 対戦順出力
-	printMatchSchdule(m, iv, num, max)
+	printMatchSchdule(matches)
 }
 
 func main() {
