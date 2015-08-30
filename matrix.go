@@ -28,7 +28,7 @@ func printMatchSchdule(matches matchSchedule) {
 }
 
 // 対戦順を生成
-func createMatchSchdule(num int) {
+func createMatchSchdule(num int) matchSchedule {
 	// 対戦表を作るチーム数は偶数になるように設定
 	// 奇数の場合は+1する
 	n := num/2 + num%2
@@ -83,8 +83,7 @@ func createMatchSchdule(num int) {
 		}
 	}
 
-	// 対戦順出力
-	printMatchSchdule(matches)
+	return matches
 }
 
 func main() {
@@ -94,5 +93,7 @@ func main() {
 	flag.Parse()
 
 	// 対戦表作成
-	createMatchSchdule(num)
+	matches := createMatchSchdule(num)
+	// 対戦順出力
+	printMatchSchdule(matches)
 }
