@@ -27,6 +27,7 @@ func printMatchSchdule(matches matchSchedule) {
 	}
 }
 
+// 設定済みの値を取得する
 func getValueList(matches matchSchedule, ix int, iy int) [18]int {
 	var iv [18]int
 	index := 0
@@ -39,6 +40,29 @@ func getValueList(matches matchSchedule, ix int, iy int) [18]int {
 		index++
 	}
 	return iv
+}
+
+// 抽出した値の中に含まれていない値の最小値を算出
+func getMinmumValue(matches matchSchedule, iv [18]int, min int) int {
+	for j := min; j <= matches.max; j++ {
+		isFound := false
+		for i := 0; i < len(iv); i++ {
+			if j == iv[i] {
+				isFound = true
+				break
+			}
+		}
+		if isFound == true {
+			if j == matches.max {
+				j = 0
+			}
+			continue
+		} else {
+			min = j
+			break
+		}
+	}
+	return min
 }
 
 // 対戦順を生成
@@ -61,26 +85,7 @@ func createMatchSchdule(num int) matchSchedule {
 				iv := getValueList(matches, ix, iy)
 
 				// 抽出した値の中に含まれていない値の最小値を算出
-				min := ix
-				for j := min; j <= matches.max; j++ {
-					isFound := false
-					for i := 0; i < len(iv); i++ {
-						if j == iv[i] {
-							isFound = true
-							break
-						}
-					}
-					if isFound == true {
-						if j == matches.max {
-							j = 0
-						}
-						continue
-					} else {
-						min = j
-						break
-					}
-				}
-				matches.match[ix][iy] = min
+				matches.match[ix][iy] = getMinmumValue(matches, iv, ix)
 				matches.match[iy][ix] = matches.match[ix][iy]
 			}
 		}
