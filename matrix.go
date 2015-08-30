@@ -28,26 +28,26 @@ func printMatchSchdule(matches matchSchedule) {
 }
 
 // 設定済みの値を取得する
-func getValueList(matches matchSchedule, ix int, iy int) [18]int {
-	var iv [18]int
+func getSetValueList(matches matchSchedule, ix int, iy int) [18]int {
+	var values [18]int
 	index := 0
 	for i := 0; i < ix; i++ {
-		iv[index] = matches.match[i][iy]
+		values[index] = matches.match[i][iy]
 		index++
 	}
 	for i := 0; i < iy; i++ {
-		iv[index] = matches.match[ix][i]
+		values[index] = matches.match[ix][i]
 		index++
 	}
-	return iv
+	return values
 }
 
 // 抽出した値の中に含まれていない値の最小値を算出
-func getMinmumValue(matches matchSchedule, iv [18]int, min int) int {
+func getMinmumValue(matches matchSchedule, values [18]int, min int) int {
 	for j := min; j <= matches.max; j++ {
 		isFound := false
-		for i := 0; i < len(iv); i++ {
-			if j == iv[i] {
+		for i := 0; i < len(values); i++ {
+			if j == values[i] {
 				isFound = true
 				break
 			}
@@ -82,10 +82,10 @@ func createMatchSchdule(num int) matchSchedule {
 		for ix := iy + 1; ix < n2; ix++ {
 			if ix != iy {
 				// 対象行/列で設定済みの値をまとめて抽出
-				iv := getValueList(matches, ix, iy)
+				values := getSetValueList(matches, ix, iy)
 
 				// 抽出した値の中に含まれていない値の最小値を算出
-				matches.match[ix][iy] = getMinmumValue(matches, iv, ix)
+				matches.match[ix][iy] = getMinmumValue(matches, values, ix)
 				matches.match[iy][ix] = matches.match[ix][iy]
 			}
 		}
