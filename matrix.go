@@ -27,6 +27,20 @@ func printMatchSchdule(matches matchSchedule) {
 	}
 }
 
+func getValueList(matches matchSchedule, ix int, iy int) [18]int {
+	var iv [18]int
+	index := 0
+	for i := 0; i < ix; i++ {
+		iv[index] = matches.match[i][iy]
+		index++
+	}
+	for i := 0; i < iy; i++ {
+		iv[index] = matches.match[ix][i]
+		index++
+	}
+	return iv
+}
+
 // 対戦順を生成
 func createMatchSchdule(num int) matchSchedule {
 	// 対戦表を作るチーム数は偶数になるように設定
@@ -39,29 +53,18 @@ func createMatchSchdule(num int) matchSchedule {
 	matches.max = 2*n - 1
 	matches.num = num
 
-	// 試合順
-	var iv [18]int
-
 	// 対戦順生成
 	for iy := 0; iy < n2; iy++ {
 		for ix := iy + 1; ix < n2; ix++ {
 			if ix != iy {
 				// 対象行/列で設定済みの値をまとめて抽出
-				index := 0
-				for i := 0; i < ix; i++ {
-					iv[index] = matches.match[i][iy]
-					index++
-				}
-				for i := 0; i < iy; i++ {
-					iv[index] = matches.match[ix][i]
-					index++
-				}
+				iv := getValueList(matches, ix, iy)
 
 				// 抽出した値の中に含まれていない値の最小値を算出
 				min := ix
 				for j := min; j <= matches.max; j++ {
 					isFound := false
-					for i := 0; i < index; i++ {
+					for i := 0; i < len(iv); i++ {
 						if j == iv[i] {
 							isFound = true
 							break
@@ -82,7 +85,6 @@ func createMatchSchdule(num int) matchSchedule {
 			}
 		}
 	}
-
 	return matches
 }
 
