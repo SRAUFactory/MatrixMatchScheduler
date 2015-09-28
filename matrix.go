@@ -14,6 +14,17 @@ type matchSchedule struct {
 
 // 対戦順を出力
 func printMatchSchdule(matches matchSchedule) {
+	for iy := 0; iy < matches.num; iy++ {
+		for ix := 0; ix < matches.num; ix++ {
+			switch {
+			case ix == iy:
+				fmt.Print("-")
+			default:
+				fmt.Print(matches.match[ix][iy])
+			}
+		}
+		fmt.Println()
+	}
 	j := 1
 	for i := 1; i <= matches.max; i++ {
 		for iy := 0; iy < matches.num; iy++ {
@@ -82,7 +93,7 @@ func createMatchSchdule(num int) matchSchedule {
 				values := getSetValueList(matches, ix, iy)
 
 				// 抽出した値の中に含まれていない値の最小値を算出
-				min := (ix + n) % n2
+				min := ix
 				matches.match[ix][iy] = getMinmumValue(matches, values, min)
 				matches.match[iy][ix] = matches.match[ix][iy]
 			}
