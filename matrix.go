@@ -39,8 +39,8 @@ func printMatchSchdule(matches matchSchedule) {
 }
 
 // 設定済みの値を取得する
-func getSetValueList(matches matchSchedule, ix int, iy int) [18]int {
-	var values [18]int
+func getSetValueList(matches matchSchedule, ix int, iy int) []int {
+	var values []int = make([]int, ix+iy)
 	for i := 0; i < ix; i++ {
 		values[i] = matches.match[i][iy]
 	}
@@ -51,7 +51,7 @@ func getSetValueList(matches matchSchedule, ix int, iy int) [18]int {
 }
 
 // 抽出した値の中に含まれていない値の最小値を算出
-func getMinmumValue(matches matchSchedule, values [18]int, min int) int {
+func getMinmumValue(matches matchSchedule, values []int, min int) int {
 	for j := min; j <= matches.max; j++ {
 		isFound := false
 		for i := 0; i < len(values); i++ {
