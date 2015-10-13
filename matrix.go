@@ -7,7 +7,7 @@ import (
 
 // 試合スケジュール
 type matchSchedule struct {
-	match [10][10]int
+	match [][]int
 	num   int
 	max   int
 }
@@ -84,6 +84,10 @@ func createMatchSchdule(num int) matchSchedule {
 	var matches matchSchedule
 	matches.max = 2*n - 1
 	matches.num = num
+	matches.match = make([][]int, n2)
+	for i := 0; i < n2; i++ {
+		matches.match[i] = make([]int, n2)
+	}
 
 	// 対戦順生成
 	for iy := 0; iy < n2; iy++ {
