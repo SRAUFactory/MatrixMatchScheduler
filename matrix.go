@@ -16,10 +16,9 @@ type MatchSchedule struct {
 func printMatchSchdule(matches *MatchSchedule) {
 	for iy := 0; iy < matches.Num; iy++ {
 		for ix := 0; ix < matches.Num; ix++ {
-			switch {
-			case ix == iy:
+			if ix == iy {
 				fmt.Print("-")
-			default:
+			} else {
 				fmt.Print(matches.Match[ix][iy])
 			}
 		}
@@ -61,15 +60,13 @@ func getMinmumValue(matches *MatchSchedule, values []int, min int) int {
 				break
 			}
 		}
-		if isFound == true {
-			if j == matches.Max {
-				j = 0
-			}
-			continue
-		} else {
+		if !isFound {
 			min = j
 			break
+		} else if j == matches.Max {
+			j = 0
 		}
+		continue
 	}
 	return min
 }
