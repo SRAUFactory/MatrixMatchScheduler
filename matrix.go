@@ -29,10 +29,11 @@ func printMatchSchdule(matches *MatchSchedule) {
 	for i := 1; i <= matches.Max; i++ {
 		for iy := 0; iy < matches.Num; iy++ {
 			for ix := iy + 1; ix < matches.Num; ix++ {
-				if matches.Match[ix][iy] == i {
-					fmt.Printf("%d: %d - %d\n", j, iy+1, ix+1)
-					j++
+				if matches.Match[ix][iy] != i {
+					continue
 				}
+				fmt.Printf("%d: %d - %d\n", j, iy+1, ix+1)
+				j++
 			}
 		}
 	}
@@ -40,12 +41,12 @@ func printMatchSchdule(matches *MatchSchedule) {
 
 // 設定済みの値を取得する
 func getSetValueList(matches *MatchSchedule, ix int, iy int) []int {
-	var values []int = make([]int, ix+iy)
+	values := []int{}
 	for i := 0; i < ix; i++ {
-		values[i] = matches.Match[i][iy]
+		values = append(values, matches.Match[i][iy])
 	}
 	for i := 0; i < iy; i++ {
-		values[ix+i] = matches.Match[ix][i]
+		values = append(values, matches.Match[ix][i])
 	}
 	return values
 }
@@ -90,15 +91,17 @@ func createMatchSchdule(num int) *MatchSchedule {
 	// 対戦順生成
 	for iy := 0; iy < n2; iy++ {
 		for ix := iy + 1; ix < n2; ix++ {
-			if ix != iy {
-				// 対象行/列で設定済みの値をまとめて抽出
-				values := getSetValueList(matches, ix, iy)
-
-				// 抽出した値の中に含まれていない値の最小値を算出
-				min := ix
-				matches.Match[ix][iy] = getMinmumValue(matches, values, min)
-				matches.Match[iy][ix] = matches.Match[ix][iy]
+			if ix == iy {
+				continue
 			}
+
+			// 対象行/列で設定済みの値をまとめて抽出
+			values := getSetValueList(matches, ix, iy)
+
+			// 抽出した値の中に含まれていない値の最小値を算出
+			min := ix
+			matches.Match[ix][iy] = getMinmumValue(matches, values, min)
+			matches.Match[iy][ix] = matches.Match[ix][iy]
 		}
 	}
 	return matches
