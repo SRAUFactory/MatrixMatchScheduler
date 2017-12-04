@@ -96,8 +96,7 @@ func createMatchSchdule(num int) *MatchSchedule {
 			values := getSetValueList(matches, ix, iy)
 
 			// 抽出した値の中に含まれていない値の最小値を算出
-			min := ix
-			matches.Match[ix][iy] = getMinmumValue(matches, values, min)
+			matches.Match[ix][iy] = getMinmumValue(matches, values, ix)
 			matches.Match[iy][ix] = matches.Match[ix][iy]
 		}
 	}
