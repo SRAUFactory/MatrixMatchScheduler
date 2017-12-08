@@ -85,10 +85,6 @@ func createMatchSchdule(num int) *MatchSchedule {
 	// 対戦順生成
 	for iy := 0; iy < n2; iy++ {
 		for ix := iy + 1; ix < n2; ix++ {
-			if ix == iy {
-				continue
-			}
-
 			// 対象行/列で設定済みの値をまとめて抽出
 			values := getSetValueList(matches, ix, iy)
 
