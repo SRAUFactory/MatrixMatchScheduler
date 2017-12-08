@@ -40,12 +40,9 @@ func printMatchSchdule(matches *MatchSchedule) {
 
 // 設定済みの値を取得する
 func getSetValueList(matches *MatchSchedule, ix int, iy int) []int {
-	values := []int{}
+	values := matches.Match[ix]
 	for i := 0; i < ix; i++ {
 		values = append(values, matches.Match[i][iy])
-	}
-	for i := 0; i < iy; i++ {
-		values = append(values, matches.Match[ix][i])
 	}
 	return values
 }
