@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func IsExistList(matchList [][]int, target []int) bool {
+func isExistList(matchList [][]int, target []int) bool {
 	for i := 0; i < len(matchList)-1; i++ {
 		currentMatch := matchList[i]
 		if currentMatch[0] == target[0] && currentMatch[1] == target[1] {
@@ -18,7 +18,7 @@ func IsExistList(matchList [][]int, target []int) bool {
 	return false
 }
 
-func CreateMatchList(num int) [][]int {
+func createMatchList(num int) [][]int {
 	matchNum := num * (num - 1) / 2
 	turnMatchNum := num/2 + num%2
 	fmt.Printf("CreateMatchList %d, %d, %d\n", num, matchNum, turnMatchNum)
@@ -33,7 +33,7 @@ func CreateMatchList(num int) [][]int {
 			target[1] = target[1] % num
 		}
 
-		for IsExistList(matchList, target) {
+		for isExistList(matchList, target) {
 			target[1]++
 			if target[1] > num {
 				target[1] = target[1] % num
@@ -62,6 +62,6 @@ func main() {
 	flag.Parse()
 
 	// 対戦表作成
-	matches := CreateMatchList(num)
+	matches := createMatchList(num)
 	fmt.Println(matches)
 }
