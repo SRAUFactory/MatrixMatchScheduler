@@ -6,7 +6,7 @@ import (
 )
 
 func isExistList(matchList [][]int, target []int) bool {
-	for i := 0; i < len(matchList)-1; i++ {
+	for i := 0; i < len(matchList); i++ {
 		currentMatch := matchList[i]
 		if currentMatch[0] == target[0] && currentMatch[1] == target[1] {
 			return true
@@ -33,12 +33,14 @@ func createMatchList(num int) [][]int {
 			target[1] = target[1] % num
 		}
 
-		for isExistList(matchList, target) {
+		limit := 0
+		for isExistList(matchList, target) || limit >= num {
 			target[1]++
+			limit++
 			if target[1] > num {
 				target[1] = target[1] % num
 			} else if target[0] == target[1] {
-				break
+				target[1]++
 			}
 		}
 		fmt.Println(target)
