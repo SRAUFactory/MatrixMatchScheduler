@@ -14,7 +14,7 @@ func CreateMatchList(num int) [][]int {
 	current := 1
 	turn := 1
 	for i := 1; i <= matchNum; i++ {
-		fmt.Printf("start %d, %d, %d\n", i, current, turn)
+		fmt.Printf("start i:%d, current:%d, turn:%d\n", i, current, turn)
 		target := []int{current, current + turn}
 		if target[1] > num {
 			target[1] = target[1] % num
@@ -29,7 +29,6 @@ func CreateMatchList(num int) [][]int {
 		} else if turn == 1 {
 			current = target[1] + turn
 		}
-		fmt.Printf("end %d, %d, %d\n", i, current, turn)
 	}
 	return matchList
 }
