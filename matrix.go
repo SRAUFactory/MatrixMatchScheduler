@@ -3,18 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	//	"reflect"
 )
-
-/*func IsContain(list [][]int, target []int) bool {
-	for i := range list {
-		reverse := []int{target[1], target[0]}
-		if reflect.DeepEqual(list[i], target) || reflect.DeepEqual(list[i], reverse) {
-			return true
-		}
-	}
-	return false
-}*/
 
 func CreateMatchList(num int) [][]int {
 	matchNum := num * (num - 1) / 2
