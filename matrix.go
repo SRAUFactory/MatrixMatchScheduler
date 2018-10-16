@@ -5,6 +5,28 @@ import (
 	"fmt"
 )
 
+func isSameTeamInParrentMatch(parent []int, current []int, num int) bool {
+	return false
+}
+
+func sortMatchCards(target [][]int, num int) [][]int {
+	sorted := [][]int{}
+	for i := 0; i < len(target); i++ {
+		j := i
+		if j > 0 {
+			for isSameTeamInParrentMatch(target[j-1], target[j], num) {
+				j++
+				if j >= len(target) {
+					j = 0
+				}
+			}
+		}
+		sorted = append(sorted, target[j])
+	}
+
+	return sorted
+}
+
 func createMatchCards(num int) [][]int {
 	matchCards := [][]int{}
 	for iy := 1; iy <= num; iy++ {
@@ -25,5 +47,8 @@ func main() {
 	fmt.Printf("チーム数: %d\n", num)
 
 	matchCards := createMatchCards(num)
+	fmt.Println(matchCards)
+
+	matchCards = sortMatchCards(matchCards, num)
 	fmt.Println(matchCards)
 }
