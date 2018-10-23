@@ -17,7 +17,7 @@ func sortMatchCards(target [][]int, num int) [][]int {
 			for isSameTeamInParrentMatch(target[j-1], target[j], num) {
 				j++
 				if j >= len(target) {
-					j = 0
+					j = 1
 				}
 			}
 		}
