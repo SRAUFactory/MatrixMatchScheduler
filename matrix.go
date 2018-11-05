@@ -9,18 +9,26 @@ func isSameTeamInParrentMatch(parent []int, current []int, num int) bool {
 	return false
 }
 
+func getNextIndex(index int, length int) int {
+	index++
+	if index >= length {
+		return 1
+	}
+	return index
+}
+
 func sortMatchCards(target [][]int, num int) [][]int {
 	sorted := [][]int{}
 	sorted = append(sorted, target[0])
-	for i := 1; i < len(target); i++ {
-		j := i
-		for isSameTeamInParrentMatch(sorted[len(sorted)-1], target[j], num) {
-			j++
-			if j >= len(target) {
-				j = 1
-			}
+	length := len(target)
+	index := getNextIndex(0, length)
+
+	for len(sorted) < length {
+		for isSameTeamInParrentMatch(sorted[len(sorted)-1], target[index], num) {
+			index = getNextIndex(index, length)
 		}
-		sorted = append(sorted, target[j])
+		sorted = append(sorted, target[index])
+		index = getNextIndex(index, length)
 	}
 
 	return sorted
