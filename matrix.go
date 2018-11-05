@@ -11,14 +11,13 @@ func isSameTeamInParrentMatch(parent []int, current []int, num int) bool {
 
 func sortMatchCards(target [][]int, num int) [][]int {
 	sorted := [][]int{}
-	for i := 0; i < len(target); i++ {
+	sorted = append(sorted, target[0])
+	for i := 1; i < len(target); i++ {
 		j := i
-		if j > 0 {
-			for isSameTeamInParrentMatch(sorted[i-1], target[j], num) {
-				j++
-				if j >= len(target) {
-					j = 1
-				}
+		for isSameTeamInParrentMatch(sorted[i-1], target[j], num) {
+			j++
+			if j >= len(target) {
+				j = 1
 			}
 		}
 		sorted = append(sorted, target[j])
