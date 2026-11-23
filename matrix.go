@@ -5,95 +5,56 @@ import (
 	"fmt"
 )
 
-// 試合スケジュール
-type MatchSchedule struct {
-	Match [][]int
-	Num   int
-	Max   int
+func isExistList(matchList [][]int, target []int) bool {
+	for i := 0; i < len(matchList); i++ {
+		currentMatch := matchList[i]
+		if currentMatch[0] == target[0] && currentMatch[1] == target[1] {
+			return true
+		}
+		if currentMatch[0] == target[1] && currentMatch[1] == target[0] {
+			return true
+		}
+	}
+	return false
 }
 
-// 対戦順を出力
-func printMatchSchdule(matches *MatchSchedule) {
-	for iy := 0; iy < matches.Num; iy++ {
-		for ix := 0; ix < matches.Num; ix++ {
-			if ix == iy {
-				fmt.Print("-")
-			} else {
-				fmt.Print(matches.Match[ix][iy])
+func createMatchList(num int) [][]int {
+	matchNum := num * (num - 1) / 2
+	turnMatchNum := num/2 + num%2
+	fmt.Printf("CreateMatchList %d, %d, %d\n", num, matchNum, turnMatchNum)
+	matchList := [][]int{}
+
+	current := 1
+	turn := 1
+	for i := 1; i <= matchNum; i++ {
+		fmt.Printf("start i:%d, current:%d, turn:%d\n", i, current, turn)
+		target := []int{current, current + turn}
+		if target[1] > num {
+			target[1] = target[1] % num
+		}
+
+		limit := 0
+		for isExistList(matchList, target) || limit >= num {
+			target[1]++
+			limit++
+			if target[1] > num {
+				target[1] = target[1] % num
+			} else if target[0] == target[1] {
+				target[1]++
 			}
 		}
-		fmt.Println()
-	}
-	j := 1
-	for i := 1; i <= matches.Max; i++ {
-		for iy := 0; iy < matches.Num; iy++ {
-			for ix := iy + 1; ix < matches.Num; ix++ {
-				if matches.Match[ix][iy] != i {
-					continue
-				}
-				fmt.Printf("%d: %d - %d\n", j, iy+1, ix+1)
-				j++
-			}
+		fmt.Println(target)
+
+		matchList = append(matchList, target)
+		current++
+		if i%turnMatchNum == 0 {
+			current = 1
+			turn++
+		} else if turn == 1 {
+			current = target[1] + turn
 		}
 	}
-}
-
-// 設定済みの値を取得する
-func getSetValueList(matches *MatchSchedule, ix int, iy int) []int {
-	values := matches.Match[ix]
-	for i := 0; i < ix; i++ {
-		values = append(values, matches.Match[i][iy])
-	}
-	return values
-}
-
-// 抽出した値の中に含まれていない値の最小値を算出
-func getMinmumValue(matches *MatchSchedule, values []int, min int) int {
-	for j := min; j <= matches.Max; j++ {
-		isFound := false
-		for i := 0; i < len(values); i++ {
-			if j == values[i] {
-				isFound = true
-				break
-			}
-		}
-		if !isFound {
-			min = j
-			break
-		} else if j == matches.Max {
-			j = 0
-		}
-		continue
-	}
-	return min
-}
-
-// 対戦順を生成
-func createMatchSchdule(num int) *MatchSchedule {
-	// 対戦表を作るチーム数は偶数になるように設定
-	// 奇数の場合は+1する
-	n := num/2 + num%2
-	n2 := n * 2
-
-	// 1チームあたりの最大試合数
-	matches := &MatchSchedule{Max: 2*n - 1, Num: num}
-	matches.Match = make([][]int, n2)
-	for i := 0; i < n2; i++ {
-		matches.Match[i] = make([]int, n2)
-	}
-
-	// 対戦順生成
-	for iy := 0; iy < n2; iy++ {
-		for ix := iy + 1; ix < n2; ix++ {
-			// 対象行/列で設定済みの値をまとめて抽出
-			values := getSetValueList(matches, ix, iy)
-
-			// 抽出した値の中に含まれていない値の最小値を算出
-			matches.Match[ix][iy] = getMinmumValue(matches, values, ix)
-			matches.Match[iy][ix] = matches.Match[ix][iy]
-		}
-	}
-	return matches
+	return matchList
 }
 
 func main() {
@@ -103,7 +64,6 @@ func main() {
 	flag.Parse()
 
 	// 対戦表作成
-	matches := createMatchSchdule(num)
-	// 対戦順出力
-	printMatchSchdule(matches)
+	matches := createMatchList(num)
+	fmt.Println(matches)
 }
